@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "tailwindcss";
+
+@theme {
+    /* fonts */
+    --font-*:initial;
+    --font-inter: "Inter", sans-serif;
+    /* colors */
+    --color-*:initial;
+    --color-primary: #F05193;
+    --color-gre1: #8E8E93;
+    --color-grey2:#AEAEB2;
+    --color-grey3:#C7C7CC;
+    --color-grey4:#D1D1D6;
+    --color-grey5:#E5E5EA;
+    --color-grey6:#F2F2F7;
+    --color-genred:#FF3B30;
+    --color-genorange:#FF9500;
+    --color-genyellow:#FFCC00;
+    --color-gengreen:#34C759;
+    --color-genteal:#5AC8FA;
+    --color-genblue:#007AFF;
+    --color-genindigo:#5856D6;
+    --color-genpurple:#AF52DE;
+    --color-genpink:#FF2D55;
+    --gradient-primary1: linear-gradient(110.4deg, #F05193 0%, #7B61FF 100%);
+    --gradient-primary2: linear-gradient(110.4deg, #3364E1 0%, #F05193 100%);
+}   
+
+
+html,
+body,
+#root,
+.app {
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    font-family: var(--font-inter);
+    scroll-behavior: smooth;
+}
