@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 
-import {type Product} from "@/types/product";
-import {type ProductInputProps} from "./ProductInput.types";
+import { type ProductSearchProps } from "@/types/ProductSearch";
+import { type Product } from "@/types/product";
 
-import {searchProducts} from "@/services/product.service";
+import {searchProducts, addProduct} from "@/services/product.service";
 
 
-const ProductInput = ({onSelect}: ProductInputProps) => {
+const ProductSearch = ({onSelect}: ProductSearchProps) => {
     const [query, setQuery] = useState("");
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-
+    const [selectedIndex, setSelectedIndex] = useState(-1);
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(()=>{
@@ -45,10 +45,54 @@ const ProductInput = ({onSelect}: ProductInputProps) => {
         setQuery("");
         setProducts([]);
         setIsOpen(false);
+        setSelectedIndex(-1);
 
         inputRef.current?.focus();
 
     };
+
+    const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+        switch (e.key) {
+            case "ArrowDown":
+                e.preventDefault;
+                setSelectedIndex(prev => prev < products.length-1 ? prev + 1 : prev);
+                break;
+
+            case "ArrowUp":
+                e.preventDefault;
+                setSelectedIndex(prev => prev > -1 ? prev - 1 : -1);
+                break;
+            case "Enter":
+                e.preventDefault;
+
+                if (selectedIndex >= 0 ){
+                    handleSelect(products[selectedIndex]);
+                    return
+                }
+
+                const value = query.trim();
+
+                if (!value) return;
+        
+                const found= products.find((product) => product.name.toLowerCase() === value.toLowerCase());
+        
+                if (found) {
+                    handleSelect(found);
+                    return
+                }
+        
+                const created = await addProduct(value);
+        
+                onSelect(created);
+        
+                setQuery("");
+                setProducts([]);
+                setSelectedIndex(-1);
+        }
+    }
+
+    
+            
 
     return (
         <div>
@@ -59,18 +103,23 @@ const ProductInput = ({onSelect}: ProductInputProps) => {
                 onChange={(e) => {
                     setQuery(e.target.value)
                 }}
+                onKeyDown={handleKeyDown}
             />
 
             {isLoading && (<div>Поиск...</div>)}
 
             {isOpen && products.length > 0 && (
                 <>
-                    <div>Результаты поиска:</div>
                     <ul>
-                        {products.map((product) => (
+                        {products.map((product, index) => (
                             <li 
                                 key={product.id} 
                                 onClick={() => handleSelect(product)}
+                                className={
+                                    index === selectedIndex
+                                        ? "bg-genblue cursor-pointer"
+                                        : "cursor-pointer hover:bg-gengreen"
+                                }
                             >
                                 {product.name}
                             </li>
@@ -78,24 +127,8 @@ const ProductInput = ({onSelect}: ProductInputProps) => {
                     </ul>
                 </>
             )}
-
-{
-                isOpen &&
-                !isLoading &&
-                products.length === 0 &&
-                query.length >= 2 &&
-                (
-                    <div className="absolute mt-1 w-full rounded-lg border bg-white p-3">
-
-                        Ничего не найдено
-
-                    </div>
-                )
-            }
-
-
         </div>
     )
 }
 
-export default ProductInput;
+export default ProductSearch;
