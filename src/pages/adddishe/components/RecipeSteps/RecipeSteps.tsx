@@ -68,7 +68,7 @@ export default function RecipeSteps({steps, onChange}:RecipeStepsProps){
                         focus-within:border focus-within:border-grey5
                         focus-within:rounded-2xl"
                     >
-                        <span className="align-baseline w-[20px]">{step.number}</span>
+                        <span className="align-baseline w-5">{step.number}</span>
                         <textarea
                             value={step.text}
                             onChange={(e)=>{
