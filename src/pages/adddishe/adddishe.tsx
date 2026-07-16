@@ -3,15 +3,16 @@ import { useState } from "react";
 import AddDisheImage from "./components/AddDisheImage/AddDisheImage";
 import Category from "@/components/category";
 import IngredientInput from "./components/IngridientInput/IngridientInput";
-import ProductList from "./components/ProductList/IngridientList";
+import IngridientList from "./components/ProductList/IngridientList";
 import RecipeSteps from "./components/RecipeSteps/RecipeSteps";
 import { type Ingridient } from "@/types/ingridients";
 import { type DisheFormData } from "@/types/dishe";
-import { type RecipeStep } from "@/types/recipeStep";
+import { type CreateRecipeStep } from "@/types/recipeStep";
 import { useDisheMutations } from "@/hooks/useDisheMutations";
+import { useCategories } from "@/hooks/useCategories";
 import LeftArrowIcon from "@/assets/icons/arrow-left.svg?react";
 import { useForm } from "react-hook-form";
-import { s } from "framer-motion/m";
+import type { Product } from "@/types/product";
 
 const AddDishe = () => {
 
@@ -30,12 +31,7 @@ const AddDishe = () => {
       number_of_persons:1,
       image:null,
       ingridients:[],
-      steps:[
-        {
-          number:1,
-          text:"",
-        },
-      ],
+      steps:[],
 
     },
 
@@ -48,14 +44,23 @@ const AddDishe = () => {
   const category = watch("category");
   const disheName = watch("name");
   const [transpDisheNameLabel, setTranspDisheNameLabel] = useState(false);
+  const categories =useCategories();
 
+  const handleAddIngridient = (product: Product) => {
+    const exists = ingridients.some(
+      ingridient => ingridient.productId === product.id
+    )
 
-  const handleAddIngridient = (ingridient: Ingridient) => {
+    if (exists) return;
+
     setValue(
       "ingridients",
       [...ingridients, 
         {
-          ...ingridient,
+          productId: product.id,
+          productName: product.name,
+          quantity:1,
+          unit:"г",
           order: ingridients.length+1
         }
       ]
@@ -69,6 +74,15 @@ const AddDishe = () => {
     )
   }
 
+  const handleIngridientChange=(ingridient:Ingridient) => {
+    setValue(
+      "ingridients",
+      ingridients.map((item)=>
+        item.productId===ingridient.productId?ingridient:item
+      )
+    )
+  }
+
   const changeImage = (file: File|null) => {
     setValue(
       "image",
@@ -76,7 +90,7 @@ const AddDishe = () => {
     )
   }
 
-  const changeSteps = (newSteps:CreateRecipeStep)=>{
+  const changeSteps = (newSteps:CreateRecipeStep[])=>{
     setValue(
       "steps",
       newSteps
@@ -150,11 +164,13 @@ const AddDishe = () => {
             </div>
             <Category 
                 category={category}
+                categories={categories}
                 onChange={handleCategory}
             />    
-            <ProductList 
+            <IngridientList 
                 ingridients={ingridients}
                 onDelete={handleDelete}
+                onChange={handleIngridientChange}
             />
             <IngredientInput
               onAdd={handleAddIngridient}
@@ -165,6 +181,8 @@ const AddDishe = () => {
             />
             <button
               type="submit"
+              className="bg-primary text-white my-4 px-4 py-4 rounded-2xl
+              text-[17px] font-semibold"
             >
               Сохранить блюдо
             </button>

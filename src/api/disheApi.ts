@@ -1,9 +1,13 @@
 import { api } from "./axios";
-import type { Dishe, DisheList, CreateDishe, UpdateDishe } from "@/types/dishe";
+import type { Dishe, DisheList, CreateDishe, UpdateDishe, DisheListOnCategory } from "@/types/dishe";
 
 export const disheApi = {
     getAll() {
         return api.get<DisheList[]>("/dishes/");
+    },
+
+    getAllOnCategory() {
+        return api.get<DisheListOnCategory[]>("/dishes-on-category/")
     },
 
     getById(id:number) {

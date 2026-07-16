@@ -7,6 +7,8 @@
     --font-inter: "Inter", sans-serif;
     /* colors */
     --color-*:initial;
+    --color-black:#000;
+    --color-white:#FFF;
     --color-primary: #F05193;
     --color-gre1: #8E8E93;
     --color-grey2:#AEAEB2;

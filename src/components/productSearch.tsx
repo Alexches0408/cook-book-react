@@ -54,16 +54,16 @@ const ProductSearch = ({onSelect}: ProductSearchProps) => {
     const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         switch (e.key) {
             case "ArrowDown":
-                e.preventDefault;
+                e.preventDefault();
                 setSelectedIndex(prev => prev < products.length-1 ? prev + 1 : prev);
                 break;
 
             case "ArrowUp":
-                e.preventDefault;
+                e.preventDefault();
                 setSelectedIndex(prev => prev > -1 ? prev - 1 : -1);
                 break;
             case "Enter":
-                e.preventDefault;
+                e.preventDefault();
 
                 if (selectedIndex >= 0 ){
                     handleSelect(products[selectedIndex]);
@@ -95,7 +95,9 @@ const ProductSearch = ({onSelect}: ProductSearchProps) => {
             
 
     return (
-        <div>
+        <div 
+            className={`${isOpen?"border border-grey6 rounded-2xl":""}`}
+        >
             <input 
                 ref={inputRef}
                 value={query}
@@ -104,6 +106,10 @@ const ProductSearch = ({onSelect}: ProductSearchProps) => {
                     setQuery(e.target.value)
                 }}
                 onKeyDown={handleKeyDown}
+                className={`w-full px-2 py-4 
+                ${!isOpen?"border border-grey6 rounded-2xl focus:outline-0 focus:border focus:border-grey6":"border-0 focus:border-0 focus:outline-0"}
+                text-[17px] placeholder:text-[17px] placeholder:font-inter 
+                placeholder:font-normal placeholder:text-grey2`}
             />
 
             {isLoading && (<div>Поиск...</div>)}
@@ -115,10 +121,12 @@ const ProductSearch = ({onSelect}: ProductSearchProps) => {
                             <li 
                                 key={product.id} 
                                 onClick={() => handleSelect(product)}
-                                className={
-                                    index === selectedIndex
-                                        ? "bg-genblue cursor-pointer"
-                                        : "cursor-pointer hover:bg-gengreen"
+                                className={`
+                                    px-2 py-3 rounded-2xl
+                                    ${index === selectedIndex
+                                        ? "bg-grey6 cursor-pointer"
+                                        : "cursor-pointer hover:bg-grey6"}
+                                        `
                                 }
                             >
                                 {product.name}

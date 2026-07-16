@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import type { Product } from "@/types/product";
 import type { Ingridient } from "@/types/ingridients";
-import { div } from "framer-motion/client";
+import CrossIcon from "@/assets/icons/icon-cross.svg?react"
 
 interface IngridientFormProps {
     product: Product,
@@ -30,7 +30,7 @@ const IngridientForm = ({
     onCancel,
 }: IngridientFormProps)=>{
 
-    const [quantity, setQuantity] = useState<string>("")
+    const [quantity, setQuantity] = useState<string>("1")
     const [unit, setUnit] = useState<string>("г")
 
     const handleSave =()=> {
@@ -48,62 +48,61 @@ const IngridientForm = ({
             order:0,
         });
 
-        setQuantity("");
+        setQuantity("1");
         setUnit("г");
     }
 
     return (
-        <div>
-            <div>
-                <span>
-                    {product.name}
-                </span>
-                <button
-                    type="button"
-                    onClick={onCancel}
-                >
-                    X
-                </button>
+        <div 
+            className="w-full flex gap-2 px-2 py-4 border border-grey6 rounded-2xl"
+        >
+            <div className="w-3/5">
+                {product.name}
             </div>
-            <div>
-                <input 
-                    type="number" 
-                    value={quantity}
+            <input 
+                type="number" 
+                value={quantity}
+                onChange={(e)=>
+                    setQuantity(
+                        e.target.value
+                    )
+                }
+                className="flex-1 min-w-0 text-right"
+                // placeholder="Количество"
+            />
+            <select 
+                value={unit}    
 
-                    onChange={(e)=>
-                        setQuantity(
-                            e.target.value
-                        )
-                    }
-                    placeholder="Количество"
-                />
-            </div>
-            <div>
-                <select 
-                    value={unit}    
-
-                    onChange={(e)=>
-                        setUnit(e.target.value)
-                    }
-                >
-                    {
-                        units.map(item=>
-                            <option
-                                key={item}
-                                value={item}
-                            >
-                                {item}
-                            </option>
-                        )
-                    }
-                </select>
-            </div>
-            <button
+                onChange={(e)=>
+                    setUnit(e.target.value)
+                }
+                className="flex-1 min-w-0"
+            >
+                {
+                    units.map(item=>
+                        <option
+                            key={item}
+                            value={item}
+                        >
+                            {item}
+                        </option>
+                    )
+                }
+            </select>
+            {/* <button
                 type="button"
                 onClick={handleSave}
+                className="flex-1 min-w-0"
             >
                 Добавить ингридиент
-            </button>
+            </button> */}
+            <button
+                    type="button"
+                    onClick={onCancel}
+                    className=""
+                >
+                    <CrossIcon/>
+                </button>
         </div>
     )
 }

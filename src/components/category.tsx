@@ -5,48 +5,65 @@ import {
     ListboxOptions,
   } from "@headlessui/react";
 
-import { type Category } from "@/types/category";
-import { useCategories } from "@/hooks/useCategories";
 
-const Category = ({category, onChange}) => {
+import ArrowDownIcon from "@/assets/icons/arrow-down.svg?react"
 
-    const categories = useCategories();
+const Category = ({categories,category, onChange}) => {
+
 
     const selected = categories.find((c)=>c.id===category)??null;
 
     return (
         <Listbox
             value={selected}
+            by="id"
             onChange={(value)=>{
-                onChange(value)
+                onChange(value.id)
             }}
         >
-            <div className="w-full">
+            <div className="w-full border-b border-grey6">
                 <ListboxButton
                     className={`
-                        flex items-center w-full h-14 
-                        border-b border-grey6 px-2 py-4
+                        flex items-center justify-between w-full h-14 
+                        px-2 py-4
                         bg-transparent
-                        appearance-none    
+                        appearance-none
                         focus:border-0
-                        focus:outline-0
+                        focus:outline-0    
                         ${category ? "" : "text-grey2"}
                     `}
                 >
                     <span
-
+                        className="text-[17px]"
                     >
                         {selected?.name ?? "Категория"}
                     </span>
+                    <ArrowDownIcon/>
                 </ListboxButton>
-                <ListboxOptions>
+                <ListboxOptions
+                    className="
+                        focus:border-0
+                        focus:outline-0
+
+                    "
+                >
                     {categories.map((category)=>(
                         <ListboxOption
                             key={category.id}
-                            value={category.id}
-                            className="font-black"
+                            value={category}
+                            className={({ focus, selected }) =>
+                            `    font-black                 
+                                ${focus? "bg-grey6":""}
+                                ${selected?"bg-grey5":""}
+                                text-[17px]
+                                font-normal
+                                px-2 py-2
+                            `
+                            }
                         >
-                                {category.name}
+
+                            {category.name}
+
                         </ListboxOption>
                     ))}
                 </ListboxOptions>

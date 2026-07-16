@@ -21,11 +21,36 @@ export interface DisheList {
     id:number,
     name:string,
     steps:RecipeStep[],
+    ingridients:Ingridient[],
     category:number,
     cooking_time:number,
     main_image:string | null,
     number_of_persons:number,
 
+}
+
+export interface ImgesOnCategory {
+    id:number,
+    image:string,
+}
+
+export interface IngridientsOnCategory {
+    id:number,
+    product:number,
+    product_name:string,
+}
+
+export interface DisheDetailOnCategory {
+    id:number,
+    name:string,
+    images:ImgesOnCategory[],
+    ingridients:IngridientsOnCategory[],
+}
+
+export interface DisheListOnCategory {
+    id:number,
+    name:string,
+    dishes:DisheDetailOnCategory[],
 }
 
 export interface CreateDishe {
