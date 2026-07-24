@@ -1,19 +1,20 @@
-import { useEffect, useRef, useState } from "react";
-
-import { type ProductSearchProps } from "@/types/productSearch";
-import { type Product } from "@/types/product";
-
+import { useState, useEffect, useRef } from "react";
 import {searchProducts, addProduct} from "@/services/product.service";
+import type { Product } from "@/types/product";
+import type { ProductFilterProps } from "@/types/productFilter";
+import SearchIcon from "@/assets/icons/icon-search.svg?react"
+import { useProductMutations } from "@/hooks/useProductMutations";
 
-
-const ProductSearch = ({onSelect}: ProductSearchProps) => {
+const ProductFilter = ({onSelect}:ProductFilterProps) => {
+    
     const [query, setQuery] = useState("");
     const [products, setProducts] = useState<Product[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const inputRef = useRef<HTMLInputElement>(null);
-
+    const {createProduct,} = useProductMutations();
+    
     useEffect(()=>{
         if (query.trim().length < 2) {
             setProducts([]);
@@ -40,9 +41,10 @@ const ProductSearch = ({onSelect}: ProductSearchProps) => {
     }, [query]);
 
     const handleSelect = (product: Product) => {
-        onSelect(product);
 
-        setQuery("");
+        onSelect(product)
+
+        setQuery("")
         setProducts([]);
         setIsOpen(false);
         setSelectedIndex(-1);
@@ -81,37 +83,35 @@ const ProductSearch = ({onSelect}: ProductSearchProps) => {
                     return
                 }
         
-                const created = await addProduct(value);
-        
-                onSelect(created);
-        
+                const created = await createProduct.mutateAsync(value)
+
+                onSelect(created)        
+                
                 setQuery("");
                 setProducts([]);
                 setSelectedIndex(-1);
         }
     }
 
-    
-            
-
     return (
-        <div 
-            className={`${isOpen?"border border-grey6 rounded-2xl":""}`}
-        >
-            <input 
-                ref={inputRef}
-                value={query}
-                placeholder="Название ингридиента..."
-                onChange={(e) => {
-                    setQuery(e.target.value)
-                }}
-                onKeyDown={handleKeyDown}
-                className={`w-full px-2 py-4 
-                ${!isOpen?"border border-grey6 rounded-2xl focus:outline-0 focus:border focus:border-grey6":"border-0 focus:border-0 focus:outline-0"}
-                text-[17px] placeholder:text-[17px] placeholder:font-inter 
-                placeholder:font-normal placeholder:text-grey2`}
-            />
-
+        <div
+            className="
+                w-full flex flex-col
+            ">
+            <div className="
+                w-full flex gap-2 items-center border px-4 py-3 border-grey6 rounded-2xl 
+                focus:border focus:border-grey6 focus:rounded-2xl focus:outline-0
+            ">
+                <SearchIcon/>
+                <input
+                    ref={inputRef}
+                    value={query}
+                    onChange={(e)=>setQuery(e.target.value)}
+                    placeholder="Хлеб..."                
+                    onKeyDown={handleKeyDown}
+                    className="border-0 focus:border-0 focus:outline-0"
+                />
+            </div>
             {isLoading && (<div>Поиск...</div>)}
 
             {isOpen && products.length > 0 && (
@@ -137,6 +137,6 @@ const ProductSearch = ({onSelect}: ProductSearchProps) => {
             )}
         </div>
     )
-}
+};
 
-export default ProductSearch;
+export default ProductFilter;

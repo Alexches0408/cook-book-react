@@ -1,5 +1,5 @@
 import type { DisheImage } from "./disheImage"
-import type { Ingridient } from "./ingridients"
+import type { CreateIngridient, Ingridient } from "./ingridients"
 import type { RecipeStep } from "./recipeStep"
 
 
@@ -78,8 +78,9 @@ export interface DisheFormData {
     cooking_time:number,
     number_of_persons:number,
     image: File | null,
-    ingridients: Ingridient[],
+    ingridients: CreateIngridient[],
     steps:{
+        dishe:number,
         number:number,
         text:string
     }[],

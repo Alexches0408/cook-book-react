@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { type IngridientItemProps } from "./IngridientItem.types";
 import CrossIcon from "@/assets/icons/icon-cross.svg?react"
 
@@ -20,7 +19,7 @@ export default function IngridientItem({ingridient, onDelete, onChange}:Ingridie
             className="w-full flex gap-2 px-2 py-4 border border-grey6 rounded-2xl"
         >
             <div className="w-3/5">
-                {ingridient.productName}
+                {ingridient.product_name}
             </div>
             <input 
                 type="number" 
@@ -65,7 +64,7 @@ export default function IngridientItem({ingridient, onDelete, onChange}:Ingridie
             </button> */}
             <button
                     type="button"
-                    onClick={()=>onDelete(ingridient.productId)}
+                    onClick={()=>onDelete(ingridient.product)}
                     className=""
                 >
                     <CrossIcon/>

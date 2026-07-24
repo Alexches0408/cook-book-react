@@ -1,5 +1,5 @@
 import { api } from "./axios";
-import type { CreateProduct } from "@/types/product";
+import type { CreateProduct, UpdateProduct, Product } from "@/types/product";
 
 export const productApi = {
     create(data: CreateProduct) {
@@ -7,5 +7,11 @@ export const productApi = {
             "/products/",
             data
         );
+    },
+    getAll() {
+        return api.get<Product[]>("/products/");
+    },
+    update(id:number, product:Partial<UpdateProduct>) {
+        return api.patch<Product>(`/products/${id}/`, product)
     }
 };

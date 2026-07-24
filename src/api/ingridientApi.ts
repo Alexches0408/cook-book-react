@@ -1,9 +1,9 @@
 import { api } from "./axios";
-import type { CreateIngridient } from "@/types/ingridients";
+import { type Ingridient, type CreateIngridient } from "@/types/ingridients";
 
 export const ingridientApi = {
     create(data: CreateIngridient) {
-        return api.post(
+        return api.post<Ingridient>(
             "/dishe-products/", data
         );
     }

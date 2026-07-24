@@ -15,7 +15,7 @@ export default function IngridientList (
 
             {ingridients.map(ingridient=> (
                 <IngridientItem
-                    key={ingridient.productId}
+                    key={ingridient.product}
                     ingridient={ingridient}
                     onDelete={onDelete}
                     onChange={onChange}

@@ -8,4 +8,6 @@ export interface RecipeStep {
 export interface CreateRecipeStep {
     number:number,
     text:string,
+    dishe:number,
 }
+

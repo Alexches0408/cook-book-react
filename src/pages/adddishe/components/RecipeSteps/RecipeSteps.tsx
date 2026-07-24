@@ -18,6 +18,7 @@ export default function RecipeSteps({steps, onChange}:RecipeStepsProps){
                 onChange([
                     ...steps,
                     {
+                        dishe:0,
                         number:steps.length+1,
                         text:step,
                     },

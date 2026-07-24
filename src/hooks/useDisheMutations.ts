@@ -70,7 +70,8 @@ export function useDisheMutations(){
                     data.ingridients.map(ingridient=>
                         ingridientApi.create({
                             dishe:disheId,
-                            product:ingridient.productId,
+                            product:ingridient.product,
+                            product_name:ingridient.product_name,
                             quantity:ingridient.quantity,
                             unit:ingridient.unit,
                         })

@@ -15,7 +15,7 @@ export const disheApi = {
     },
 
     create(dishe:Partial<CreateDishe>) {
-        return api.post<CreateDishe>("/dishes/",dishe)
+        return api.post<Dishe>("/dishes/",dishe)
     },
 
     update(id:number, dishe:Partial<UpdateDishe>) {

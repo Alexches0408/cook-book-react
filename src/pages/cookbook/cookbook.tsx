@@ -6,7 +6,7 @@ import CategorySection from "./components/CategorySection";
 import { useCategories } from "@/hooks/useCategories";
 import { useDishesOnCategory } from "@/hooks/useDishesOnCategory";
 
-import PlusIcon from "@/assets/icons/icon-plus.svg?react"
+import PlusIcon from "@/assets/icons/icon-plus.svg?react";
 
 
 const Cookbook = () => {
@@ -40,7 +40,7 @@ const Cookbook = () => {
 
       </div>
       <div
-        className="absolute bottom-5 right-4"
+        className="absolute bottom-[14%] right-4"
       >
         <Link to="/adddishe">
           <PlusIcon/>

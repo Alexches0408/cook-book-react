@@ -23,15 +23,20 @@ const CategorySection = ({selectedCategory, dishes}:CategorySectionProps) =>{
                 <div
                     key={dishe.id}
                 >
-                    <span>
+                    <h2
+                        className="text-[22px] font-bold"
+                    >
                         {dishe.name}
-                    </span>
+                    </h2>
                     <DisheCardList
                         key={dishe.id}
                         dishes={dishe.dishes}
                     />
                 </div>
             ))}
+            <div    
+                className="min-h-[10%]"
+            ></div>
         </div>
     )
 

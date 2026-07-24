@@ -1,16 +1,15 @@
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import AddDisheImage from "./components/AddDisheImage/AddDisheImage";
+import BackArrow from "@/components/backArrow";
 import Category from "@/components/category";
 import IngredientInput from "./components/IngridientInput/IngridientInput";
 import IngridientList from "./components/ProductList/IngridientList";
 import RecipeSteps from "./components/RecipeSteps/RecipeSteps";
-import { type Ingridient } from "@/types/ingridients";
+import type { Ingridient, CreateIngridient } from "@/types/ingridients";
 import { type DisheFormData } from "@/types/dishe";
 import { type CreateRecipeStep } from "@/types/recipeStep";
 import { useDisheMutations } from "@/hooks/useDisheMutations";
 import { useCategories } from "@/hooks/useCategories";
-import LeftArrowIcon from "@/assets/icons/arrow-left.svg?react";
 import { useForm } from "react-hook-form";
 import type { Product } from "@/types/product";
 
@@ -48,7 +47,7 @@ const AddDishe = () => {
 
   const handleAddIngridient = (product: Product) => {
     const exists = ingridients.some(
-      ingridient => ingridient.productId === product.id
+      ingridient => ingridient.product === product.id
     )
 
     if (exists) return;
@@ -57,8 +56,9 @@ const AddDishe = () => {
       "ingridients",
       [...ingridients, 
         {
-          productId: product.id,
-          productName: product.name,
+          dishe:0,
+          product: product.id,
+          product_name: product.name,
           quantity:1,
           unit:"г",
           order: ingridients.length+1
@@ -70,15 +70,15 @@ const AddDishe = () => {
   const handleDelete = (id:number) => {
     setValue(
       "ingridients",
-      ingridients.filter(ingridient=>ingridient.productId!==id)
+      ingridients.filter(ingridient=>ingridient.product!==id)
     )
   }
 
-  const handleIngridientChange=(ingridient:Ingridient) => {
+  const handleIngridientChange=(ingridient:CreateIngridient) => {
     setValue(
       "ingridients",
       ingridients.map((item)=>
-        item.productId===ingridient.productId?ingridient:item
+        item.product===ingridient.product?ingridient:item
       )
     )
   }
@@ -125,12 +125,7 @@ const AddDishe = () => {
     >
       <div className="py-4">
         <div className="flex flex-row items-center justify-between px-4">
-          <Link to="/">
-              <div className="flex flex-row items-center">
-                  <LeftArrowIcon/>
-                  <span className="font-bold ml-2">Назад</span>
-              </div>
-          </Link>
+          <BackArrow/>
           <div className="text-gre1">Добавление блюда</div>
           <div>Иконки</div>
         </div>

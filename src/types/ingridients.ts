@@ -1,6 +1,9 @@
 export interface Ingridient{
-    productId:number,
-    productName:string,
+    id?:number,
+    product:number,
+    product_name:string,
+    product_inStock?:boolean,
+    product_inList?:boolean,
     quantity?:number,
     unit?:string,
     order?:number,
@@ -9,6 +12,7 @@ export interface Ingridient{
 export interface CreateIngridient{
     dishe:number,
     product:number,
+    product_name?:string,
     quantity?:number,
     unit?:string,
     order?:number,
